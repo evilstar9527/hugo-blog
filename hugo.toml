@@ -1,0 +1,37 @@
+baseURL = "https://example.pages.dev/"
+locale = "zh-cn"
+title = "我的博客"
+theme = "hugo-texify3"
+
+enableRobotsTXT = true
+hasCJKLanguage = true
+rssLimit = 10
+
+[pagination]
+pagerSize = 10
+
+[taxonomies]
+tags = "tags"
+categories = "categories"
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
+[params]
+title = "我的博客"
+author = "jishihe"
+description = "使用思源、Hugo、GitHub 和 Cloudflare Pages 部署的静态博客"
+dateFormat = "2006-01-02"
+toc = true
+math = true
+emphasisWithDots = true
+numberedSubtitles = true
+rootFontSize = "105%"
+customCSS = []
+customJS = []
+footnote = """
+Powered by <a class=link href=https://gohugo.io target=_blank rel=noopener>Hugo</a> |
+Theme <a class=link href=https://github.com/michaelneuper/hugo-texify3 target=_blank rel=noopener>TeXify3</a>
+"""

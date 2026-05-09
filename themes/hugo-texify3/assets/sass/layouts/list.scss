@@ -1,0 +1,90 @@
+@use "../vars" as *;
+
+#main {
+  & > .post-group {
+    margin-bottom: 0.5rem;
+
+    & > ul {
+      border-left: 1px solid var(--fg4);
+      list-style-type: none;
+      margin-left: 0.5rem;
+      padding-left: $margin;
+
+      & > li {
+        border-radius: $radius;
+        transition: background-color 0.2s ease;
+
+        &:hover {
+          background-color: var(--bg_s);
+        }
+      }
+
+      @media screen and (min-width: $mobile-breakpoint) {
+        margin-left: 1rem;
+        padding-left: 2rem;
+      }
+    }
+
+    a.post-link {
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.15rem 0.5rem;
+      line-height: 1.8;
+      color: var(--blue);
+
+      &:visited {
+        color: var(--blue-dim);
+      }
+
+      time {
+        color: var(--fg4);
+        text-align: right;
+      }
+    }
+  }
+}
+
+#searchbox {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 0;
+  margin-bottom: $margin;
+
+  #ddgSearch {
+    position: relative;
+    display: inline-block;
+
+    input {
+      color: var(--fg1);
+      background-color: var(--bg_s);
+      font-family: sans-serif;
+      padding-left: 10px;
+      width: 200px;
+      height: 1.8rem;
+      border: $border solid var(--fg4);
+      border-radius: $radius;
+
+      &:focus {
+        outline: 1px solid var(--fg1);
+      }
+    }
+
+    button {
+      position: absolute;
+      aspect-ratio: 1rem;
+      right: 1em;
+      top: 5.3px;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+
+      svg {
+        fill: var(--fg1);
+      }
+    }
+  }
+}
