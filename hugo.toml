@@ -1,4 +1,4 @@
-baseURL = "https://example.pages.dev/"
+baseURL = "https://evilstar.org/"
 locale = "zh-cn"
 title = "我的博客"
 theme = "hugo-texify3"
