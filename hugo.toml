@@ -1,6 +1,6 @@
 baseURL = "https://evilstar.org/"
 locale = "zh-cn"
-title = "我的博客"
+title = "evilstar‘s blog"
 theme = "hugo-texify3"
 
 enableRobotsTXT = true
@@ -40,8 +40,8 @@ weight = 2
       unsafe = true
 
 [params]
-title = "我的博客"
-author = "jishihe"
+title = "evilstar‘s blog"
+author = "evilstar"
 description = "使用思源、Hugo、GitHub 和 Cloudflare Pages 部署的静态博客"
 dateFormat = "2006-01-02"
 toc = true
