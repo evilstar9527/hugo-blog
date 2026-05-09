@@ -38,6 +38,30 @@ draft: false
 ---
 ```
 
+## Writing
+
+新建文章：
+
+```sh
+hugo new content posts/my-first-post.md
+```
+
+文章会生成在 `content/posts/`。写完后本地预览：
+
+```sh
+npm run dev
+```
+
+发布：
+
+```sh
+git add content/posts static/uploads
+git commit -m "publish post"
+git push
+```
+
+推送到 `main` 后，Cloudflare Pages 会自动重新构建。
+
 ## Cloudflare Pages
 
 推荐配置：
