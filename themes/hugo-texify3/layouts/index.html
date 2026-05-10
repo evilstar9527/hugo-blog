@@ -1,29 +1,30 @@
 {{ define "head" }}
-{{ $options := dict "transpiler" "dartsass" "targetPath" "css/index.css" }}
-{{ with resources.Get "sass/layouts/index.scss" | toCSS $options | postCSS | minify | fingerprint }}
+{{ $options := dict "transpiler" "dartsass" "targetPath" "css/list.css" }}
+{{ with resources.Get "sass/layouts/list.scss" | toCSS $options | postCSS | minify | fingerprint }}
   <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
 {{ end }}
 {{ end }}
 
 {{ define "main" }}
-{{ $recentPosts := first 1 (where .Site.RegularPages "Type" "posts") }}
-<main class="home-simple">
-    <section id="content" class="index home-intro content">
-        {{ with .Site.GetPage "_index.md" }}
-            {{ .Content }}
-        {{ else }}
-            <p>{{ .Site.Params.description }}</p>
-        {{ end }}
-    </section>
-
-    {{ with index $recentPosts 0 }}
-    <section class="home-latest" aria-labelledby="home-latest-title">
-        <p class="home-latest-label">Latest</p>
-        <a class="home-latest-link" href="{{ .RelPermalink }}">
-            <span class="home-latest-title" id="home-latest-title">{{ .Title }}</span>
-            <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>
+<main id="main" class="archive">
+  {{ $pages := where .Site.RegularPages "Type" "posts" }}
+  {{ range $pages.GroupByDate "2006-01" }}
+  <div class="post-group">
+    <h3>{{ dateFormat "January 2006" (printf "%s-01" .Key) }}</h3>
+    <ul>
+      {{ range .Pages }}
+      <li>
+        <a class="post-link" href="{{ .RelPermalink }}">
+          <span>{{ .Title }}</span>
+          <time>{{ .PublishDate.Format .Site.Params.dateFormat }}</time>
         </a>
-    </section>
-    {{ end }}
+      </li>
+      {{ end }}
+    </ul>
+  </div>
+  {{ end }}
+  <div class="post-group">
+    <h3>...</h3>
+  </div>
 </main>
 {{ end }}
