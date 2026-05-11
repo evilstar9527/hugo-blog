@@ -1,4 +1,9 @@
-# Tipsy Studio 当前版本管理与数据恢复架构
+---
+title: "Tipsy Studio 当前版本管理与数据恢复架构"
+date: 2026-05-11
+draft: false
+categories: ["notes"]
+---
 
 更新时间：2026-04-06  
 范围：基于当前代码实现分析，不沿用旧版设计假设。  

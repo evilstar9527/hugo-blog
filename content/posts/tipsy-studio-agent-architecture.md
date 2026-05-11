@@ -1,4 +1,9 @@
-# Tipsy Studio 编码 Agent 架构设计
+---
+title: "Tipsy Studio 编码 Agent 架构设计"
+date: 2026-05-11
+draft: false
+categories: ["notes"]
+---
 
 ## 1. 文档定位
 

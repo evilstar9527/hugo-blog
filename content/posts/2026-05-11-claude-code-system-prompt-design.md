@@ -1,4 +1,9 @@
-# Claude Code 系统提示词设计整理
+---
+title: "Claude Code 系统提示词设计整理"
+date: 2026-05-11
+draft: false
+categories: ["notes"]
+---
 
 ## 目标
 

@@ -1,4 +1,9 @@
-# Tipsy Studio 中 Logfire 日志接入决策
+---
+title: "Tipsy Studio 中 Logfire 日志接入决策"
+date: 2026-05-11
+draft: false
+categories: ["notes"]
+---
 
 本文记录当前 `tipsy-studio` 中关于 Logfire 日志接入的决策结论、背景、备选方案和取舍原因。目标不是设计一套理想化的日志体系，而是基于当前代码现状和真实排障方式，选择最合适的落地路径。
 

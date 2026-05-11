@@ -1,4 +1,9 @@
-# Tipsy Studio Agent Evaluation Architecture
+---
+title: "Tipsy Studio Agent Evaluation Architecture"
+date: 2026-05-11
+draft: false
+categories: ["notes"]
+---
 
 ## 1. 目标
 

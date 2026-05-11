@@ -1,4 +1,9 @@
-# Claude Code 源码架构文档
+---
+title: "Claude Code 源码架构文档"
+date: 2026-05-11
+draft: false
+categories: ["notes"]
+---
 
 基于 `@anthropic-ai/claude-code` v2.1.88 还原源码梳理。
 

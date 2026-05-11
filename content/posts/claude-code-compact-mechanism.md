@@ -1,4 +1,9 @@
-# Claude Code `/compact` 机制分析
+---
+title: "Claude Code `/compact` 机制分析"
+date: 2026-05-11
+draft: false
+categories: ["notes"]
+---
 
 ## Context（为什么需要这份分析）
 

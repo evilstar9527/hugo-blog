@@ -1,4 +1,9 @@
-# Open Agents 项目架构文档
+---
+title: "Open Agents 项目架构文档"
+date: 2026-05-11
+draft: false
+categories: ["notes"]
+---
 
 ## 1. 文档目的
 

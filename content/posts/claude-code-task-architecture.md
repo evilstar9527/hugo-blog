@@ -1,4 +1,9 @@
-# Claude Code Task 架构分析
+---
+title: "Claude Code Task 架构分析"
+date: 2026-05-11
+draft: false
+categories: ["notes"]
+---
 
 ## 1. 先说结论
 

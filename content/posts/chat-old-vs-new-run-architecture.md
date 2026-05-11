@@ -1,4 +1,9 @@
-# 旧方案 vs 新方案：Chat 流式链路详细对比
+---
+title: "旧方案 vs 新方案：Chat 流式链路详细对比"
+date: 2026-05-11
+draft: false
+categories: ["notes"]
+---
 
 更新时间：2026-04-15 22:23 CST
 

@@ -1,4 +1,9 @@
-# Publish Feature Architecture
+---
+title: "Publish Feature Architecture"
+date: 2026-05-11
+draft: false
+categories: ["notes"]
+---
 
 ## Publish Flow (User clicks "Publish")
 

@@ -1,5 +1,9 @@
-
-# Durable Run 作业化迁移方案
+---
+title: "Durable Run 作业化迁移方案"
+date: 2026-05-11
+draft: false
+categories: ["notes"]
+---
 
 ## Summary
 

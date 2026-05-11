@@ -1,4 +1,9 @@
-# Tipsy Studio `apps/api` 迁移到 `structlog + Logfire` 的改造方案
+---
+title: "Tipsy Studio `apps/api` 迁移到 `structlog + Logfire` 的改造方案"
+date: 2026-05-11
+draft: false
+categories: ["notes"]
+---
 
 本文给出 `tipsy-studio` 后端 `apps/api` 的结构化日志改造方案。目标不是继续讨论方向，而是沉淀一份可以直接交给实现者执行的实施方案。
 

@@ -1,4 +1,9 @@
-# 当前 Sandbox 生命周期说明
+---
+title: "当前 Sandbox 生命周期说明"
+date: 2026-05-11
+draft: false
+categories: ["notes"]
+---
 
 本文描述当前 `tipsy-studio` 中 sandbox 生命周期的真实实现，以当前代码为准。
 

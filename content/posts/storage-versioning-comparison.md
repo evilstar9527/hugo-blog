@@ -1,4 +1,9 @@
-# OSS/S3 Object Versioning vs Content-Addressable Key — 对比分析
+---
+title: "OSS/S3 Object Versioning vs Content-Addressable Key — 对比分析"
+date: 2026-05-11
+draft: false
+categories: ["notes"]
+---
 
 > Tipsy Studio workspace 文件存储方案评估
 > 2026-03-30

@@ -1,4 +1,9 @@
-# 轻量方案：ProjectVersion + ProjectDraft + ProjectTurn + SandboxSnapshot
+---
+title: "轻量方案：ProjectVersion + ProjectDraft + ProjectTurn + SandboxSnapshot"
+date: 2026-04-08
+draft: false
+categories: ["notes"]
+---
 
 ## 1. 文档目的
 

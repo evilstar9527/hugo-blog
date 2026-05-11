@@ -1,4 +1,9 @@
-# Claude Code Tools 设计分析
+---
+title: "Claude Code Tools 设计分析"
+date: 2026-05-11
+draft: false
+categories: ["notes"]
+---
 
 ## 1. 结论
 

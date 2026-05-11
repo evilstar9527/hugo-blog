@@ -1,4 +1,9 @@
-# Tipsy Studio Game Plan Mode 最终设计文档
+---
+title: "Tipsy Studio Game Plan Mode 最终设计文档"
+date: 2026-04-21
+draft: false
+categories: ["notes"]
+---
 
 ## 1. 文档目的
 

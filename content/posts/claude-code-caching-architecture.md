@@ -1,4 +1,9 @@
-# Claude Code 缓存设计架构文档
+---
+title: "Claude Code 缓存设计架构文档"
+date: 2026-05-11
+draft: false
+categories: ["notes"]
+---
 
 > **源码依据**：`/Users/jishihe/work/civil-engineering-cloud-claude-code-source-v2.1.88/01-claude-code-source-crack/claude-code-source/src`
 > 所有行号与路径都指向该目录。
