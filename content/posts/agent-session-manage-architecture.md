@@ -20,6 +20,8 @@ tags: ["claude-code", "codex", "electron", "sqlite"]
 
 所以我做了这个项目：**Agent Session Manage**。
 
+项目地址：<https://github.com/evilstar9527/agent-session-manage>
+
 它不是一个新的 agent，也不是一个新的聊天工具。更准确地说，它是一个本地的会话管理器：把 Claude Code 和 Codex 的历史会话统一索引起来，让我可以更快地搜索、查看、恢复、导出，并且在需要的时候，尽量平滑地把对话切换到另一个工具里继续。
 
 ## 我想做的，其实不是“另一个聊天应用”
