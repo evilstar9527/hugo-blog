@@ -33,29 +33,29 @@ categories: ["notes"]
 
 ```mermaid
 flowchart LR
-    U[User Browser]
-    W[Next.js IDE]
-    CP[ChatPanel]
-    PP[Project Page]
-    API[FastAPI]
-    CHAT[chat router]
-    WV[workspace_versions service]
-    SS[sandbox_service]
-    SSE[sse_buffer]
-    DB[(PostgreSQL)]
-    R[(Redis)]
-    R2[(Cloudflare R2)]
-    SB[E2B Sandbox]
+    U["User Browser"]
+    W["Next.js IDE"]
+    CP["ChatPanel"]
+    PP["Project Page"]
+    API["FastAPI"]
+    CHAT["chat router"]
+    WV["workspace_versions service"]
+    SS["sandbox_service"]
+    SSE["sse_buffer"]
+    DB[("PostgreSQL")]
+    R[("Redis")]
+    R2[("Cloudflare R2")]
+    SB["E2B Sandbox"]
 
     U --> W
     W --> CP
     W --> PP
 
-    CP -->|POST /chat| CHAT
-    CP -->|GET /chat/resume| CHAT
-    CP -->|POST /chat/{run}/pause| CHAT
-    CP -->|POST /draft/discard| API
-    PP -->|heartbeat / wake| API
+    CP -->|"POST /chat"| CHAT
+    CP -->|"GET /chat/resume"| CHAT
+    CP -->|"POST /chat/{run}/pause"| CHAT
+    CP -->|"POST /draft/discard"| API
+    PP -->|"heartbeat / wake"| API
 
     CHAT --> WV
     CHAT --> SSE
@@ -70,10 +70,10 @@ flowchart LR
     SS --> SB
     WV --> SB
 
-    DB -->|正式版本指针 + draft 指针 + 会话/消息| API
-    R2 -->|文件对象 / manifest / draft manifest / bundle| API
-    R -->|SSE事件缓冲 / pause标志| API
-    SB -->|预览站点 + 文件系统 + Vite| W
+    DB -->|"正式版本指针 + draft 指针 + 会话/消息"| API
+    R2 -->|"文件对象 / manifest / draft manifest / bundle"| API
+    R -->|"SSE事件缓冲 / pause标志"| API
+    SB -->|"预览站点 + 文件系统 + Vite"| W
 ```
 
 ### 2.1 组件职责
@@ -410,17 +410,17 @@ stateDiagram-v2
 
 ```mermaid
 flowchart TD
-    A[Wake Sandbox] --> B[ensure_project_head]
-    B --> C{当前 head 存在?}
-    C -- 否 --> D[使用模板 sandbox]
-    C -- 是 --> E[尝试下载 bundle]
-    E --> F{bundle 恢复成功?}
-    F -- 是 --> G[tar -xzf 到 /home/user]
-    G --> H[ensure runtime]
-    F -- 否 --> I[按 manifest 逐文件重放]
+    A["Wake Sandbox"] --> B["ensure_project_head"]
+    B --> C{"当前 head 存在?"}
+    C -- 否 --> D["使用模板 sandbox"]
+    C -- 是 --> E["尝试下载 bundle"]
+    E --> F{"bundle 恢复成功?"}
+    F -- 是 --> G["tar -xzf 到 /home/user"]
+    G --> H["ensure runtime"]
+    F -- 否 --> I["按 manifest 逐文件重放"]
     I --> H
-    H --> J[注册 preview 路由]
-    J --> K[session -> active]
+    H --> J["注册 preview 路由"]
+    J --> K["session -> active"]
 ```
 
 具体实现：

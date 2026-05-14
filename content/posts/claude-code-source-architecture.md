@@ -26,13 +26,13 @@ Claude Code 不是一个“简单 CLI”，而是一个**单进程宿主（host�
 
 ```mermaid
 flowchart TD
-    U[User / SDK / Remote Caller]
+    U["User / SDK / Remote Caller"]
 
     subgraph Build["Build-Time Product Line"]
-        B1[build.ts]
-        B2[Feature Flags<br/>feature()]
-        B3[MACRO constants]
-        B4[dist/cli.js]
+        B1["build.ts"]
+        B2["Feature Flags<br/>feature()"]
+        B3["MACRO constants"]
+        B4["dist/cli.js"]
         B1 --> B2
         B1 --> B3
         B2 --> B4
@@ -42,20 +42,20 @@ flowchart TD
     U --> E1
 
     subgraph Entry["Entry & Bootstrap"]
-        E1[src/entrypoints/cli.tsx]
-        E2[src/main.tsx]
-        E3[src/entrypoints/init.ts]
-        E4[src/setup.ts]
+        E1["src/entrypoints/cli.tsx"]
+        E2["src/main.tsx"]
+        E3["src/entrypoints/init.ts"]
+        E4["src/setup.ts"]
         E1 --> E2
         E2 --> E3
         E2 --> E4
     end
 
     subgraph Surface["Runtime Surface"]
-        S1[Interactive REPL<br/>screens/REPL.tsx]
-        S2[Headless / SDK<br/>cli/print.ts]
-        S3[Bridge / Remote Control<br/>bridge/*]
-        S4[Remote Session Viewer<br/>remote/*]
+        S1["Interactive REPL<br/>screens/REPL.tsx"]
+        S2["Headless / SDK<br/>cli/print.ts"]
+        S3["Bridge / Remote Control<br/>bridge/*"]
+        S4["Remote Session Viewer<br/>remote/*"]
     end
 
     E2 --> S1
@@ -64,9 +64,9 @@ flowchart TD
     E2 --> S4
 
     subgraph UI["Terminal UI Layer"]
-        UI1[src/ink/*]
-        UI2[components/*]
-        UI3[state/AppStateStore.ts]
+        UI1["src/ink/*"]
+        UI2["components/*"]
+        UI3["state/AppStateStore.ts"]
     end
 
     S1 --> UI1
@@ -74,10 +74,10 @@ flowchart TD
     S1 --> UI3
 
     subgraph Core["Conversation Core"]
-        C1[QueryEngine.ts]
-        C2[query.ts]
-        C3[context.ts]
-        C4[constants/prompts + system prompt assembly]
+        C1["QueryEngine.ts"]
+        C2["query.ts"]
+        C3["context.ts"]
+        C4["constants/prompts + system prompt assembly"]
     end
 
     S1 --> C1
@@ -87,11 +87,11 @@ flowchart TD
     C1 --> C4
 
     subgraph Exec["Execution Plane"]
-        T1[Tool.ts / tools.ts]
-        T2[services/tools/*]
-        T3[tools/*]
-        T4[tasks/*]
-        T5[tools/AgentTool/*]
+        T1["Tool.ts / tools.ts"]
+        T2["services/tools/*"]
+        T3["tools/*"]
+        T4["tasks/*"]
+        T5["tools/AgentTool/*"]
     end
 
     C2 --> T2
@@ -102,12 +102,12 @@ flowchart TD
     T5 --> C2
 
     subgraph Integrations["Integrations & Services"]
-        I1[services/api/*]
-        I2[services/mcp/*]
-        I3[services/lsp/*]
-        I4[services/analytics/*]
-        I5[remoteManagedSettings / policyLimits / settingsSync]
-        I6[sessionStorage / memory / CLAUDE.md]
+        I1["services/api/*"]
+        I2["services/mcp/*"]
+        I3["services/lsp/*"]
+        I4["services/analytics/*"]
+        I5["remoteManagedSettings / policyLimits / settingsSync"]
+        I6["sessionStorage / memory / CLAUDE.md"]
     end
 
     C2 --> I1

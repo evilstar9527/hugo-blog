@@ -29,46 +29,46 @@ Claude Code 的 `tools` 不是一个简单的函数注册表，而是一套统�
 
 ```mermaid
 flowchart TB
-    A[Model / API] --> B[Tool Definition Layer]
-    B --> C[Execution Layer]
-    B --> D[Permission Layer]
-    B --> E[UI / Transcript Layer]
-    B --> F[Concrete Tools]
-    C --> G[tool_result back to conversation]
+    A["Model / API"] --> B["Tool Definition Layer"]
+    B --> C["Execution Layer"]
+    B --> D["Permission Layer"]
+    B --> E["UI / Transcript Layer"]
+    B --> F["Concrete Tools"]
+    C --> G["tool_result back to conversation"]
     D --> C
     F --> C
     F --> E
 
     subgraph Tool Definition Layer
-      B1[Tool interface]
-      B2[buildTool defaults]
-      B3[inputSchema / prompt / render / permission hooks]
+      B1["Tool interface"]
+      B2["buildTool defaults"]
+      B3["inputSchema / prompt / render / permission hooks"]
     end
 
     subgraph Execution Layer
-      C1[runTools]
-      C2[runToolUse]
-      C3[checkPermissionsAndCallTool]
+      C1["runTools"]
+      C2["runToolUse"]
+      C3["checkPermissionsAndCallTool"]
     end
 
     subgraph Permission Layer
-      D1[hasPermissionsToUseTool]
-      D2[tool.checkPermissions]
-      D3[interactive/coordinator/swarm handlers]
+      D1["hasPermissionsToUseTool"]
+      D2["tool.checkPermissions"]
+      D3["interactive/coordinator/swarm handlers"]
     end
 
     subgraph UI / Transcript Layer
-      E1[renderToolUseMessage]
-      E2[renderToolUseProgressMessage]
-      E3[renderToolResultMessage]
-      E4[extractSearchText]
+      E1["renderToolUseMessage"]
+      E2["renderToolUseProgressMessage"]
+      E3["renderToolResultMessage"]
+      E4["extractSearchText"]
     end
 
     subgraph Concrete Tools
-      F1[FileReadTool]
-      F2[BashTool]
-      F3[MCPTool]
-      F4[AgentTool]
+      F1["FileReadTool"]
+      F2["BashTool"]
+      F3["MCPTool"]
+      F4["AgentTool"]
     end
 ```
 
@@ -182,22 +182,22 @@ sequenceDiagram
 
 ```mermaid
 flowchart TD
-    A[tool call request] --> B[hasPermissionsToUseTool]
-    B --> C{behavior}
-    C -->|allow| D[direct allow]
-    C -->|deny| E[reject]
-    C -->|ask| F[build permission description]
-    F --> G{mode / environment}
-    G --> H[coordinator handler]
-    G --> I[swarm worker handler]
-    G --> J[interactive dialog]
-    H --> K[final decision]
+    A["tool call request"] --> B["hasPermissionsToUseTool"]
+    B --> C{"behavior"}
+    C -->|"allow"| D["direct allow"]
+    C -->|"deny"| E["reject"]
+    C -->|"ask"| F["build permission description"]
+    F --> G{"mode / environment"}
+    G --> H["coordinator handler"]
+    G --> I["swarm worker handler"]
+    G --> J["interactive dialog"]
+    H --> K["final decision"]
     I --> K
     J --> K
-    K --> L[allow with updatedInput]
-    K --> M[deny]
+    K --> L["allow with updatedInput"]
+    K --> M["deny"]
 
-    B --> N[tool.checkPermissions]
+    B --> N["tool.checkPermissions"]
     N --> C
 ```
 
@@ -218,15 +218,15 @@ flowchart TD
 
 ```mermaid
 flowchart LR
-    A[tool_use list] --> B[partitionToolCalls]
-    B --> C{isConcurrencySafe?}
-    C -->|yes| D[append to concurrent batch]
-    C -->|no| E[start serial batch]
-    D --> F[runToolsConcurrently]
-    E --> G[runToolsSerially]
-    F --> H[collect queued context modifiers]
-    H --> I[apply modifiers after batch]
-    G --> J[apply modifier immediately]
+    A["tool_use list"] --> B["partitionToolCalls"]
+    B --> C{"isConcurrencySafe?"}
+    C -->|"yes"| D["append to concurrent batch"]
+    C -->|"no"| E["start serial batch"]
+    D --> F["runToolsConcurrently"]
+    E --> G["runToolsSerially"]
+    F --> H["collect queued context modifiers"]
+    H --> I["apply modifiers after batch"]
+    G --> J["apply modifier immediately"]
 ```
 
 这套设计的特点：
@@ -245,16 +245,16 @@ flowchart LR
 
 ```mermaid
 flowchart TB
-    A[Registered tools] --> B{shouldDefer / MCP / ToolSearch mode}
-    B -->|inline| C[toolToAPISchema normal]
-    B -->|defer| D[toolToAPISchema + defer_loading]
-    C --> E[API request tools array]
+    A["Registered tools"] --> B{"shouldDefer / MCP / ToolSearch mode"}
+    B -->|"inline"| C["toolToAPISchema normal"]
+    B -->|"defer"| D["toolToAPISchema + defer_loading"]
+    C --> E["API request tools array"]
     D --> E
-    E --> F[Model sees inline tools]
-    E --> G[Deferred tools discoverable via ToolSearch]
-    G --> H[Model calls ToolSearchTool]
-    H --> I[tool_reference / discovered-tool set]
-    I --> J[Retry actual deferred tool]
+    E --> F["Model sees inline tools"]
+    E --> G["Deferred tools discoverable via ToolSearch"]
+    G --> H["Model calls ToolSearchTool"]
+    H --> I["tool_reference / discovered-tool set"]
+    I --> J["Retry actual deferred tool"]
 ```
 
 关键实现点：
@@ -275,34 +275,34 @@ flowchart TB
 ```mermaid
 flowchart TB
     subgraph Read["FileReadTool"]
-      R1[isConcurrencySafe = true]
-      R2[isReadOnly = true]
-      R3[path backfill]
-      R4[read permission]
-      R5[maxResultSizeChars = Infinity]
+      R1["isConcurrencySafe = true"]
+      R2["isReadOnly = true"]
+      R3["path backfill"]
+      R4["read permission"]
+      R5["maxResultSizeChars = Infinity"]
     end
 
     subgraph Bash["BashTool"]
-      B1[isConcurrencySafe = isReadOnly]
-      B2[command parsing]
-      B3[bash permission]
-      B4[progress streaming]
-      B5[background task]
-      B6[persist large output]
+      B1["isConcurrencySafe = isReadOnly"]
+      B2["command parsing"]
+      B3["bash permission"]
+      B4["progress streaming"]
+      B5["background task"]
+      B6["persist large output"]
     end
 
     subgraph MCP["MCPTool"]
-      M1[isMcp = true]
-      M2[passthrough schema]
-      M3[dynamic override by mcp client]
-      M4[permission passthrough]
+      M1["isMcp = true"]
+      M2["passthrough schema"]
+      M3["dynamic override by mcp client"]
+      M4["permission passthrough"]
     end
 
     subgraph Agent["AgentTool"]
-      A1[dynamic prompt from agents + MCP + permissions]
-      A2[subagent/team/fork lifecycle]
-      A3[agent-specific permission check]
-      A4[tool-based delegation model]
+      A1["dynamic prompt from agents + MCP + permissions"]
+      A2["subagent/team/fork lifecycle"]
+      A3["agent-specific permission check"]
+      A4["tool-based delegation model"]
     end
 ```
 

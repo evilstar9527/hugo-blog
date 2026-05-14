@@ -27,27 +27,27 @@ categories: ["notes"]
 
 ```mermaid
 flowchart TB
-    A[Model / User] --> B[Task Tools]
-    B --> C[Runtime Background Task System]
-    B --> D[TodoV2 Task List System]
+    A["Model / User"] --> B["Task Tools"]
+    B --> C["Runtime Background Task System"]
+    B --> D["TodoV2 Task List System"]
 
     subgraph Runtime Background Task System
-      C1[Task.ts contract]
-      C2[AppState.tasks]
-      C3[LocalShellTask / LocalAgentTask / RemoteAgentTask]
-      C4[task output on disk]
-      C5[stop / output / notifications]
+      C1["Task.ts contract"]
+      C2["AppState.tasks"]
+      C3["LocalShellTask / LocalAgentTask / RemoteAgentTask"]
+      C4["task output on disk"]
+      C5["stop / output / notifications"]
     end
 
     subgraph TodoV2 Task List System
-      D1[utils/tasks.ts]
-      D2[task json files + lock]
-      D3[TaskCreate / Update / Get / List]
-      D4[useTasksV2 watcher]
+      D1["utils/tasks.ts"]
+      D2["task json files + lock"]
+      D3["TaskCreate / Update / Get / List"]
+      D4["useTasksV2 watcher"]
     end
 
-    B1[TaskStopTool / TaskOutputTool] --> C
-    B2[TaskCreateTool / TaskUpdateTool / TaskGetTool / TaskListTool] --> D
+    B1["TaskStopTool / TaskOutputTool"] --> C
+    B2["TaskCreateTool / TaskUpdateTool / TaskGetTool / TaskListTool"] --> D
 ```
 
 最容易误读源码的地方就在这里：`TaskStopTool` 停的是运行中的后台任务，不是 TodoV2 清单里的任务项；`TaskUpdateTool` 更新的是清单任务，不是后台进程状态。
@@ -80,23 +80,23 @@ flowchart TB
 
 ```mermaid
 flowchart TB
-    A[Task.ts] --> B[tasks.ts registry]
-    B --> C[getTaskByType]
-    C --> D[Concrete task impl]
+    A["Task.ts"] --> B["tasks.ts registry"]
+    B --> C["getTaskByType"]
+    C --> D["Concrete task impl"]
 
-    D --> E[LocalShellTask]
-    D --> F[LocalAgentTask]
-    D --> G[RemoteAgentTask]
-    D --> H[Dream/Workflow/Monitor optional tasks]
+    D --> E["LocalShellTask"]
+    D --> F["LocalAgentTask"]
+    D --> G["RemoteAgentTask"]
+    D --> H["Dream/Workflow/Monitor optional tasks"]
 
-    E --> I[AppState.tasks]
+    E --> I["AppState.tasks"]
     F --> I
     G --> I
     H --> I
 
-    I --> J[framework.ts register/update/evict]
-    J --> K[notifications + sdk events]
-    J --> L[task output on disk]
+    I --> J["framework.ts register/update/evict"]
+    J --> K["notifications + sdk events"]
+    J --> L["task output on disk"]
 ```
 
 这里的关键思想是：
@@ -123,13 +123,13 @@ flowchart TB
 
 ```mermaid
 flowchart LR
-    A[AppState.tasks] --> B[taskId -> TaskState]
-    A --> C[background task list UI]
-    A --> D[foregroundedTaskId]
-    A --> E[viewingAgentTaskId]
-    A --> F[coordinator/task panel]
-    A --> G[TaskStopTool lookup]
-    A --> H[TaskOutputTool lookup]
+    A["AppState.tasks"] --> B["taskId -> TaskState"]
+    A --> C["background task list UI"]
+    A --> D["foregroundedTaskId"]
+    A --> E["viewingAgentTaskId"]
+    A --> F["coordinator/task panel"]
+    A --> G["TaskStopTool lookup"]
+    A --> H["TaskOutputTool lookup"]
 ```
 
 这样做有几个直接收益：
@@ -156,15 +156,15 @@ flowchart LR
 
 ```mermaid
 flowchart TB
-    A[Concrete Task] --> B[registerTask]
-    A --> C[updateTaskState]
-    B --> D[AppState.tasks]
+    A["Concrete Task"] --> B["registerTask"]
+    A --> C["updateTaskState"]
+    B --> D["AppState.tasks"]
     C --> D
-    D --> E[pollTasks]
-    E --> F[generateTaskAttachments]
-    F --> G[offset update]
-    F --> H[terminal eviction]
-    F --> I[notification enqueue]
+    D --> E["pollTasks"]
+    E --> F["generateTaskAttachments"]
+    F --> G["offset update"]
+    F --> H["terminal eviction"]
+    F --> I["notification enqueue"]
 ```
 
 几个关键点：
@@ -189,14 +189,14 @@ flowchart TB
 
 ```mermaid
 flowchart LR
-    A[Running task] --> B[TaskOutput]
-    B -->|pipe mode| C[in-memory buffer]
-    B -->|overflow| D[DiskTaskOutput]
-    B -->|file mode| D
-    D --> E[session temp dir / taskId.output]
-    E --> F[TaskOutputTool]
-    E --> G[Read tool]
-    B --> H[shared poller for progress]
+    A["Running task"] --> B["TaskOutput"]
+    B -->|"pipe mode"| C["in-memory buffer"]
+    B -->|"overflow"| D["DiskTaskOutput"]
+    B -->|"file mode"| D
+    D --> E["session temp dir / taskId.output"]
+    E --> F["TaskOutputTool"]
+    E --> G["Read tool"]
+    B --> H["shared poller for progress"]
 ```
 
 设计上有两个重点：
@@ -265,16 +265,16 @@ sequenceDiagram
 
 ```mermaid
 flowchart TB
-    A[AgentTool / caller] --> B[registerAsyncAgent or registerAgentForeground]
-    B --> C[LocalAgentTaskState]
-    C --> D[AppState.tasks]
-    D --> E[progress update]
-    D --> F[summary update]
-    D --> G[pending messages]
-    D --> H[retain / diskLoaded / evictAfter]
-    D --> I[backgroundAgentTask]
-    D --> J[killAsyncAgent]
-    D --> K[completeAgentTask / failAgentTask]
+    A["AgentTool / caller"] --> B["registerAsyncAgent or registerAgentForeground"]
+    B --> C["LocalAgentTaskState"]
+    C --> D["AppState.tasks"]
+    D --> E["progress update"]
+    D --> F["summary update"]
+    D --> G["pending messages"]
+    D --> H["retain / diskLoaded / evictAfter"]
+    D --> I["backgroundAgentTask"]
+    D --> J["killAsyncAgent"]
+    D --> K["completeAgentTask / failAgentTask"]
 ```
 
 ### 8.2 关键设计点
@@ -303,13 +303,13 @@ flowchart TB
 
 ```mermaid
 flowchart LR
-    A[Remote spawn request] --> B[RemoteAgentTaskState]
-    B --> C[sessionId + metadata]
-    C --> D[pollRemoteSessionEvents]
-    D --> E[appendTaskOutput]
-    D --> F[update task state]
-    F --> G[task notification]
-    F --> H[archive / cleanup metadata]
+    A["Remote spawn request"] --> B["RemoteAgentTaskState"]
+    B --> C["sessionId + metadata"]
+    C --> D["pollRemoteSessionEvents"]
+    D --> E["appendTaskOutput"]
+    D --> F["update task state"]
+    F --> G["task notification"]
+    F --> H["archive / cleanup metadata"]
 ```
 
 这说明 task 子系统的抽象层级是“可被统一管理的异步工作单元”，而不是“本地线程/进程”。
@@ -327,12 +327,12 @@ flowchart LR
 
 ```mermaid
 flowchart TD
-    A[TaskStopTool] --> B[stopTask]
-    B --> C[AppState.tasks lookup]
-    C --> D[getTaskByType]
-    D --> E[concreteTask.kill]
-    E --> F[update state / abort / cleanup]
-    F --> G[suppress or emit notifications]
+    A["TaskStopTool"] --> B["stopTask"]
+    B --> C["AppState.tasks lookup"]
+    C --> D["getTaskByType"]
+    D --> E["concreteTask.kill"]
+    E --> F["update state / abort / cleanup"]
+    F --> G["suppress or emit notifications"]
 ```
 
 `stopTask.ts` 的设计很干净：
@@ -348,15 +348,15 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    A[TaskOutputTool] --> B[lookup task in AppState.tasks]
-    B --> C{block?}
-    C -->|false| D[read current output]
-    C -->|true| E[waitForTaskCompletion]
-    E --> F[read final output]
-    D --> G[getTaskOutputData]
+    A["TaskOutputTool"] --> B["lookup task in AppState.tasks"]
+    B --> C{"block?"}
+    C -->|"false"| D["read current output"]
+    C -->|"true"| E["waitForTaskCompletion"]
+    E --> F["read final output"]
+    D --> G["getTaskOutputData"]
     F --> G
-    G --> H[type-specific normalization]
-    H --> I[tool result]
+    G --> H["type-specific normalization"]
+    H --> I["tool result"]
 ```
 
 `TaskOutputTool` 的一个重要信号是：它已经被标记为 deprecated，推荐直接用 `Read` 去读 task output file。  
@@ -379,15 +379,15 @@ flowchart TD
 
 ```mermaid
 flowchart TB
-    A[getTaskListId] --> B[tasks dir]
-    B --> C[1.json]
-    B --> D[2.json]
-    B --> E[3.json]
-    B --> F[.highwatermark]
-    B --> G[lock file]
+    A["getTaskListId"] --> B["tasks dir"]
+    B --> C["1.json"]
+    B --> D["2.json"]
+    B --> E["3.json"]
+    B --> F[".highwatermark"]
+    B --> G["lock file"]
 
-    H[createTask/updateTask/deleteTask/listTasks/blockTask] --> B
-    H --> I[notifyTasksUpdated signal]
+    H["createTask/updateTask/deleteTask/listTasks/blockTask"] --> B
+    H --> I["notifyTasksUpdated signal"]
 ```
 
 ### 11.2 为什么 taskListId 设计得这么复杂
@@ -413,14 +413,14 @@ flowchart TB
 
 ```mermaid
 flowchart LR
-    A[TaskCreateTool] --> E[utils/tasks.ts]
-    B[TaskUpdateTool] --> E
-    C[TaskListTool] --> E
-    D[TaskGetTool] --> E
-    E --> F[json task files]
-    E --> G[notifyTasksUpdated]
-    G --> H[useTasksV2 store]
-    H --> I[task list UI]
+    A["TaskCreateTool"] --> E["utils/tasks.ts"]
+    B["TaskUpdateTool"] --> E
+    C["TaskListTool"] --> E
+    D["TaskGetTool"] --> E
+    E --> F["json task files"]
+    E --> G["notifyTasksUpdated"]
+    G --> H["useTasksV2 store"]
+    H --> I["task list UI"]
 ```
 
 几个关键点：
@@ -442,17 +442,17 @@ flowchart LR
 
 ```mermaid
 flowchart TD
-    A[TasksV2Store] --> B[listTasks()]
-    B --> C[#tasks cache]
-    C --> D[useSyncExternalStore consumers]
+    A["TasksV2Store"] --> B["listTasks()"]
+    B --> C["#tasks cache"]
+    C --> D["useSyncExternalStore consumers"]
 
-    E[fs.watch] --> A
-    F[onTasksUpdated signal] --> A
-    G[fallback poll] --> A
+    E["fs.watch"] --> A
+    F["onTasksUpdated signal"] --> A
+    G["fallback poll"] --> A
 
-    A --> H[hide timer]
-    H --> I[all completed for 5s]
-    I --> J[resetTaskList]
+    A --> H["hide timer"]
+    H --> I["all completed for 5s"]
+    I --> J["resetTaskList"]
 ```
 
 这层设计得很务实：
@@ -473,15 +473,15 @@ flowchart TD
 
 ```mermaid
 flowchart TB
-    A[Runtime Background Tasks] --> A1[what is running]
-    A --> A2[how to stop]
-    A --> A3[where is output]
+    A["Runtime Background Tasks"] --> A1["what is running"]
+    A --> A2["how to stop"]
+    A --> A3["where is output"]
 
-    B[TodoV2 Task List] --> B1[what should be done]
-    B --> B2[who owns it]
-    B --> B3[what blocks what]
+    B["TodoV2 Task List"] --> B1["what should be done"]
+    B --> B2["who owns it"]
+    B --> B3["what blocks what"]
 
-    C[Agent / Model workflow] --> A
+    C["Agent / Model workflow"] --> A
     C --> B
 
     A -. may inspire updates .-> B

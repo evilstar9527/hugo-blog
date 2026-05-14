@@ -55,35 +55,35 @@ categories: ["notes"]
 
 ```mermaid
 flowchart LR
-    U[User / Browser]
-    FE[Web IDE<br/>ChatPanel]
-    SSE[Browser SSE Client<br/>streamChat / resumeChatRun]
+    U["User / Browser"]
+    FE["Web IDE<br/>ChatPanel"]
+    SSE["Browser SSE Client<br/>streamChat / resumeChatRun"]
 
-    API[FastAPI<br/>chat.py]
-    AGENT[coding_agent.run]
-    SB[E2B Sandbox]
+    API["FastAPI<br/>chat.py"]
+    AGENT["coding_agent.run"]
+    SB["E2B Sandbox"]
 
-    R[(Redis<br/>RunEventBuffer + active lease)]
-    DB[(PostgreSQL<br/>messages / sessions)]
+    R[("Redis<br/>RunEventBuffer + active lease")]
+    DB[("PostgreSQL<br/>messages / sessions")]
 
     U --> FE
     FE --> SSE
 
-    SSE -->|POST /chat| API
-    SSE -->|GET /chat/resume/{run_id}| API
-    FE -->|GET /messages| API
+    SSE -->|"POST /chat"| API
+    SSE -->|"GET /chat/resume/{run_id}"| API
+    FE -->|"GET /messages"| API
 
-    API -->|load history| DB
-    API -->|persist prompt / snapshot / final messages / run-status| DB
-    API -->|append / replay / tail SSE events| R
+    API -->|"load history"| DB
+    API -->|"persist prompt / snapshot / final messages / run-status"| DB
+    API -->|"append / replay / tail SSE events"| R
     API --> AGENT
-    AGENT -->|tool calls| SB
-    SB -->|tool results| AGENT
+    AGENT -->|"tool calls"| SB
+    SB -->|"tool results"| AGENT
 
-    AGENT -->|text_delta / tool_call / tool_result| API
-    API -->|SSE push| SSE
-    R -->|missed events replay| API
-    DB -->|folded history| API
+    AGENT -->|"text_delta / tool_call / tool_result"| API
+    API -->|"SSE push"| SSE
+    R -->|"missed events replay"| API
+    DB -->|"folded history"| API
     API --> FE
 ```
 
@@ -385,30 +385,30 @@ sequenceDiagram
 ```mermaid
 flowchart TB
     subgraph Frontend["Frontend"]
-        CP[ChatPanel.tsx]
-        SSEJS[sse.ts<br/>streamChat / resumeChatRun]
-        MSG[UI message state]
-        NOTICE[stream status notice<br/>tool status / run notice]
+        CP["ChatPanel.tsx"]
+        SSEJS["sse.ts<br/>streamChat / resumeChatRun"]
+        MSG["UI message state"]
+        NOTICE["stream status notice<br/>tool status / run notice"]
         CP --> SSEJS
         CP --> MSG
         CP --> NOTICE
     end
 
     subgraph API["FastAPI"]
-        CHAT[routers/chat.py]
-        PROJ[routers/projects.py]
-        SNAP[SnapshotState]
-        QUEUE[asyncio.Queue]
-        DETACH[detached drain task]
+        CHAT["routers/chat.py"]
+        PROJ["routers/projects.py"]
+        SNAP["SnapshotState"]
+        QUEUE["asyncio.Queue"]
+        DETACH["detached drain task"]
         CHAT --> SNAP
         CHAT --> QUEUE
         CHAT --> DETACH
     end
 
     subgraph Agent["Agent Runtime"]
-        MODEL[pydantic-ai coding_agent]
-        TOOLS[tool calls]
-        SANDBOX[E2B Sandbox]
+        MODEL["pydantic-ai coding_agent"]
+        TOOLS["tool calls"]
+        SANDBOX["E2B Sandbox"]
         MODEL --> TOOLS
         TOOLS --> SANDBOX
         SANDBOX --> TOOLS
@@ -416,20 +416,20 @@ flowchart TB
     end
 
     subgraph Redis["Redis SSE Buffer"]
-        META[meta hash]
-        EVENTS[events zset]
-        ACTIVE[active lease key]
+        META["meta hash"]
+        EVENTS["events zset"]
+        ACTIVE["active lease key"]
     end
 
     subgraph Postgres["PostgreSQL"]
-        MESSAGES[messages table]
-        SESSIONS[sessions table]
+        MESSAGES["messages table"]
+        SESSIONS["sessions table"]
     end
 
-    CP -->|send chat| CHAT
-    CP -->|load messages| PROJ
-    SSEJS -->|consume SSE| CHAT
-    SSEJS -->|resume SSE| CHAT
+    CP -->|"send chat"| CHAT
+    CP -->|"load messages"| PROJ
+    SSEJS -->|"consume SSE"| CHAT
+    SSEJS -->|"resume SSE"| CHAT
 
     CHAT --> MODEL
     CHAT --> META
@@ -442,9 +442,9 @@ flowchart TB
     PROJ --> META
     PROJ --> ACTIVE
 
-    META -->|event cursor / terminal state| CHAT
-    EVENTS -->|replay missed events| CHAT
-    ACTIVE -->|is run alive?| CHAT
+    META -->|"event cursor / terminal state"| CHAT
+    EVENTS -->|"replay missed events"| CHAT
+    ACTIVE -->|"is run alive?"| CHAT
 ```
 
 ---
@@ -453,23 +453,23 @@ flowchart TB
 
 ```mermaid
 flowchart LR
-    RUN[run_id]
+    RUN["run_id"]
 
-    RUN --> MK[chat:run:{run_id}:meta]
-    RUN --> EK[chat:run:{run_id}:events]
-    RUN --> AK[chat:run:{run_id}:active]
+    RUN --> MK["chat:run:{run_id}:meta"]
+    RUN --> EK["chat:run:{run_id}:events"]
+    RUN --> AK["chat:run:{run_id}:active"]
 
-    MK --> M1[created_at_ms]
-    MK --> M2[last_event_id]
-    MK --> M3[last_event_time_ms]
-    MK --> M4[terminal]
-    MK --> M5[project_id]
+    MK --> M1["created_at_ms"]
+    MK --> M2["last_event_id"]
+    MK --> M3["last_event_time_ms"]
+    MK --> M4["terminal"]
+    MK --> M5["project_id"]
 
-    EK --> E1[event_id=1 -> payload json]
-    EK --> E2[event_id=2 -> payload json]
-    EK --> E3[event_id=n -> payload json]
+    EK --> E1["event_id=1 -> payload json"]
+    EK --> E2["event_id=2 -> payload json"]
+    EK --> E3["event_id=n -> payload json"]
 
-    AK --> A1[TTL-based lease]
+    AK --> A1["TTL-based lease"]
 ```
 
 ---
@@ -478,21 +478,21 @@ flowchart LR
 
 ```mermaid
 flowchart TD
-    S[Session]
-    M1[Message kind=request]
-    M2[Message kind=response-snapshot]
-    M3[Message kind=response]
-    M4[Message kind=run-status]
+    S["Session"]
+    M1["Message kind=request"]
+    M2["Message kind=response-snapshot"]
+    M3["Message kind=response"]
+    M4["Message kind=run-status"]
 
     S --> M1
     S --> M2
     S --> M3
     S --> M4
 
-    M1 --> U1[user prompt]
-    M2 --> P1[partial assistant text + tool calls]
-    M3 --> F1[final assistant output]
-    M4 --> R1[completed / incomplete + saved_files + error]
+    M1 --> U1["user prompt"]
+    M2 --> P1["partial assistant text + tool calls"]
+    M3 --> F1["final assistant output"]
+    M4 --> R1["completed / incomplete + saved_files + error"]
 ```
 
 ---

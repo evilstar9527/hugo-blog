@@ -15,23 +15,23 @@ categories: ["notes"]
 
 ```mermaid
 flowchart LR
-    U[User / Browser]
-    FE[Web IDE Page]
-    API[FastAPI Control Plane]
-    DB[(Postgres Session / Project)]
-    R[(Redis)]
-    E2B[E2B Sandbox]
-    CF[Cloudflare KV / Preview Route]
-    S3[(Workspace Store / Bundle + Manifest)]
+    U["User / Browser"]
+    FE["Web IDE Page"]
+    API["FastAPI Control Plane"]
+    DB[("Postgres Session / Project")]
+    R[("Redis")]
+    E2B["E2B Sandbox"]
+    CF["Cloudflare KV / Preview Route"]
+    S3[("Workspace Store / Bundle + Manifest")]
 
     U --> FE
-    FE -->|wake / heartbeat / chat / terminal| API
+    FE -->|"wake / heartbeat / chat / terminal"| API
     API --> DB
     API --> R
     API --> E2B
     API --> CF
     API --> S3
-    E2B -->|5173 Vite preview| FE
+    E2B -->|"5173 Vite preview"| FE
 ```
 
 ## 2. 生命周期参与者
@@ -228,17 +228,17 @@ sequenceDiagram
 
 ```mermaid
 flowchart TD
-    A[_sleep_checker every 60s]
-    B[load active sessions from DB]
-    C{redis sandbox key exists?}
-    D[keep active]
-    E[sleep_project]
-    F[active -> syncing]
-    G[reconnect sandbox]
-    H[tar workspace and upload bundle]
-    I[kill sandbox]
-    J[mark route SLEEPING]
-    K[syncing -> hibernating]
+    A["_sleep_checker every 60s"]
+    B["load active sessions from DB"]
+    C{"redis sandbox key exists?"}
+    D["keep active"]
+    E["sleep_project"]
+    F["active -> syncing"]
+    G["reconnect sandbox"]
+    H["tar workspace and upload bundle"]
+    I["kill sandbox"]
+    J["mark route SLEEPING"]
+    K["syncing -> hibernating"]
 
     A --> B --> C
     C -- yes --> D

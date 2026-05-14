@@ -111,17 +111,17 @@ docs/agents/           面向 agent 的仓库说明与架构摘要
 
 ```mermaid
 flowchart LR
-  U[Browser UI] --> W[Next.js Web App]
-  W --> DB[(Postgres / Drizzle)]
-  W --> WF[Workflow Runtime]
-  WF --> AG[Open Harness Agent]
-  AG --> TOOLS[Tools / Skills / Subagents]
-  TOOLS --> SB[Sandbox Abstraction]
-  SB --> VS[Vercel Sandbox VM]
+  U["Browser UI"] --> W["Next.js Web App"]
+  W --> DB[("Postgres / Drizzle")]
+  W --> WF["Workflow Runtime"]
+  WF --> AG["Open Harness Agent"]
+  AG --> TOOLS["Tools / Skills / Subagents"]
+  TOOLS --> SB["Sandbox Abstraction"]
+  SB --> VS["Vercel Sandbox VM"]
 
-  W --> VO[Vercel OAuth]
-  W --> GH[GitHub App + GitHub APIs]
-  W --> VC[Vercel Project APIs]
+  W --> VO["Vercel OAuth"]
+  W --> GH["GitHub App + GitHub APIs"]
+  W --> VC["Vercel Project APIs"]
 
   GH --> VS
   VC --> VS
@@ -131,25 +131,25 @@ flowchart LR
 
 ```mermaid
 flowchart TB
-  subgraph ControlPlane[Web 控制面]
-    UI[App Router Pages / Hooks]
-    API[API Routes]
-    STORE[DB State: sessions/chats/messages]
-    INT[GitHub / Vercel / Auth Integration]
+  subgraph ControlPlane["Web 控制面"]
+    UI["App Router Pages / Hooks"]
+    API["API Routes"]
+    STORE["DB State: sessions/chats/messages"]
+    INT["GitHub / Vercel / Auth Integration"]
   end
 
-  subgraph Runtime[Agent 运行时]
-    WF[Workflow-based durable execution]
-    OA[openHarnessAgent]
-    SA[Subagents]
-    SK[Skills]
-    TL[Tool Loop]
+  subgraph Runtime["Agent 运行时"]
+    WF["Workflow-based durable execution"]
+    OA["openHarnessAgent"]
+    SA["Subagents"]
+    SK["Skills"]
+    TL["Tool Loop"]
   end
 
-  subgraph Execution[执行面]
-    SIF[Sandbox Interface]
-    VSB[VercelSandbox]
-    VM[Persistent VM / Repo / Shell / Ports]
+  subgraph Execution["执行面"]
+    SIF["Sandbox Interface"]
+    VSB["VercelSandbox"]
+    VM["Persistent VM / Repo / Shell / Ports"]
   end
 
   UI --> API
