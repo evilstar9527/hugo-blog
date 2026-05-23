@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode }}" style="font-size: {{ .Site.Params.rootFontSize | default "100%" }}">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- author -->
+  <meta name="author" content="{{ .Site.Params.author }}">
+
+  <!-- description -->
+  {{ if .Description }}
+  <meta name="description" content="{{ .Description }}">
+  {{ else if and .IsPage .Summary }}
+  <meta name="description" content="{{ .Summary }}">
+  {{ else }}
+  <meta name="description" content="{{ .Site.Params.description }}">
+  {{ end }}
+
+  <!-- resource hints -->
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.google-analytics.com">
+
+  <!-- favicon -->
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ "images/apple-touch-icon.png" | absURL }}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ "images/favicon-32x32.png" | absURL }}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ "images/favicon-16x16.png" | absURL }}">
+
+  <!-- keywords -->
+  {{ if .Keywords }}
+  <meta name="keywords" content='{{ delimit .Keywords " " }} {{ delimit .Site.Params.keywords " " }}'>
+  {{ else }}
+  <meta name="keywords" content='{{ delimit .Site.Params.keywords " " }}'>
+  {{ end }}
+
+  <!-- math -->
+  {{ if or .Params.math .Site.Params.math }}
+  {{ partial "math.html" . }}
+  {{ end }}
+
+  <!-- opengraph -->
+  {{ template "_internal/opengraph.html" . }}
+  {{ if not .Params.images }}
+  <meta property="og:image" content="{{ "images/apple-touch-icon.png" | absURL }}">
+  {{ end }}
+
+  <!-- permalink -->
+  <link rel="canonical" href="{{ .Permalink }}">
+
+  <!-- rss -->
+  {{ range .AlternativeOutputFormats -}}
+  {{ printf `
+  <link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .Permalink $.Site.Title | safeHTML }}
+  {{ end -}}
+
+  <!-- schema -->
+  {{ template "_internal/schema.html" . }}
+  {{ if .IsHome }}
+  {{ $posts := where .Site.RegularPages "Type" "posts" | first 10 }}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": {{ .Site.Title }},
+    "url": {{ .Site.BaseURL }},
+    "description": {{ .Site.Params.description }},
+    "author": {
+      "@type": "Person",
+      "name": {{ .Site.Params.author }}
+    },
+    "blogPost": [
+      {{ range $i, $p := $posts }}{{ if $i }},{{ end }}{
+        "@type": "BlogPosting",
+        "headline": {{ $p.Title }},
+        "url": {{ $p.Permalink }},
+        "datePublished": {{ $p.PublishDate.Format "2006-01-02" }}
+      }{{ end }}
+    ]
+  }
+  </script>
+  {{ end }}
+
+  <!-- style -->
+  {{ $options := dict "transpiler" "dartsass" "targetPath" "css/common.css" }}
+  {{ with resources.Get "sass/layouts/common.scss" | toCSS $options | postCSS | minify | fingerprint }}
+    <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
+  {{ end }}
+
+  {{ $options := dict "transpiler" "dartsass" "targetPath" "css/content.css" }}
+  {{ with resources.Get "sass/layouts/content.scss" | toCSS $options | postCSS | minify | fingerprint }}
+    <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
+  {{ end }}
+
+  <!-- title -->
+  {{ if .IsHome }}
+  <title>{{ .Site.Title }} - {{ .Site.Params.description }}</title>
+  {{ else }}
+  <title>{{ .Title }} - {{ .Site.Title }}</title>
+  {{ end }}
+
+  <!-- twitter -->
+  {{ template "_internal/twitter_cards.html" . }}
+
+  {{ block "head" . }}{{ end }}
+</head>
+
+<body>
+  <a class="skip-link" href="#main">跳到内容</a>
+  <div id="wrapper">
+    {{ partial "header.html" . }}
+    {{ block "main" . }}{{ end }}
+    {{ partial "footer.html" . }}
+  </div>
+
+  <!-- javascript -->
+  <script src='{{ "js/script.js" | absURL }}' defer></script>
+
+  <!-- custom css -->
+  {{ range .Site.Params.customCSS }}
+  <link media="screen" rel="stylesheet" href="{{ . | absURL }}" />
+  {{ end }}
+
+  <!-- custom js -->
+  {{ range .Site.Params.customJS }}
+  <script src="{{ . | absURL }}" defer></script>
+  {{ end }}
+
+  <!-- google analytics -->
+  {{ template "_internal/google_analytics.html" . }}
+
+</body>
+
+</html>

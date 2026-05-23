@@ -1,0 +1,40 @@
+{{ define "head" }}
+{{ $options := dict "transpiler" "dartsass" "targetPath" "css/list.css" }}
+{{ with resources.Get "sass/layouts/list.scss" | toCSS $options | postCSS | minify | fingerprint }}
+  <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
+{{ end }}
+{{ end }}
+
+{{ define "main" }}
+{{ $pages := where .Site.RegularPages "Type" "posts" }}
+<main id="main" class="archive">
+  <section class="home-hero">
+    <p class="home-hero-desc">{{ .Site.Params.description }}</p>
+    <p class="home-hero-meta">共 {{ len $pages }} 篇文章 · 最近更新 {{ (index $pages 0).PublishDate.Format .Site.Params.dateFormat }}</p>
+  </section>
+
+  {{ range $pages.GroupByDate "2006-01" }}
+  <div class="post-group">
+    {{ $parts := split .Key "-" }}
+    <h3>{{ index $parts 0 }} 年 {{ int (index $parts 1) }} 月</h3>
+    <ul>
+      {{ range .Pages }}
+      <li>
+        <a class="post-link" href="{{ .RelPermalink }}">
+          <span class="post-title">{{ .Title }}</span>
+          <time datetime="{{ .PublishDate.Format "2006-01-02" }}">{{ .PublishDate.Format .Site.Params.dateFormat }}</time>
+        </a>
+        {{ with .Params.tags }}
+        <div class="post-tags">
+          {{ range first 4 . }}
+          <a class="tag-chip" href="{{ "tags/" | absURL }}{{ . | urlize }}/" aria-label="标签：{{ . }}">#{{ . }}</a>
+          {{ end }}
+        </div>
+        {{ end }}
+      </li>
+      {{ end }}
+    </ul>
+  </div>
+  {{ end }}
+</main>
+{{ end }}

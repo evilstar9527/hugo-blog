@@ -1,0 +1,25 @@
+{{ define "head" }}
+{{ $options := dict "transpiler" "dartsass" "targetPath" "css/list.css" }}
+{{ with resources.Get "sass/layouts/list.scss" | toCSS $options | postCSS | minify | fingerprint }}
+  <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
+{{ end }}
+{{ end }}
+
+{{ define "main" }}
+{{ $terms := .Data.Terms.ByCount }}
+<main id="main" class="archive">
+  <section class="home-hero">
+    <p class="home-hero-desc">{{ .Title }}</p>
+    <p class="home-hero-meta">共 {{ len $terms }} 个 · 按文章数排序</p>
+  </section>
+
+  <div class="terms-cloud">
+    {{ range $terms }}
+    <a class="tag-chip tag-chip-lg" href="{{ "/" | relLangURL }}{{ $.Data.Plural }}/{{ .Name | urlize }}/" aria-label="标签：{{ .Name }}（{{ .Count }} 篇）" style="--chip-weight: {{ .Count }};">
+      <span class="chip-name">#{{ .Name }}</span>
+      <span class="chip-count">{{ .Count }}</span>
+    </a>
+    {{ end }}
+  </div>
+</main>
+{{ end }}

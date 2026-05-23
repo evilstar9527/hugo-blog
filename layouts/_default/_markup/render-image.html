@@ -1,0 +1,39 @@
+{{- $src := .Destination -}}
+{{- $alt := .Text -}}
+{{- $title := .Title -}}
+{{- $isRemote := or (hasPrefix $src "http://") (hasPrefix $src "https://") (hasPrefix $src "//") -}}
+{{- $isData := hasPrefix $src "data:" -}}
+{{- $res := "" -}}
+{{- if and (not $isRemote) (not $isData) -}}
+  {{- with .Page.Resources.GetMatch $src -}}
+    {{- $res = . -}}
+  {{- end -}}
+{{- end -}}
+{{- if $res -}}
+  {{- $ext := lower (path.Ext $res.RelPermalink) -}}
+  {{- $isRaster := in (slice ".png" ".jpg" ".jpeg") $ext -}}
+  {{- if $isRaster -}}
+    {{- $w := $res.Width -}}
+    {{- $h := $res.Height -}}
+    {{- $maxW := 1600 -}}
+    {{- $base := $res -}}
+    {{- if gt $w $maxW -}}
+      {{- $base = $res.Resize (printf "%dx" $maxW) -}}
+    {{- end -}}
+    {{- $webp := $base.Resize (printf "%dx webp q82" $base.Width) -}}
+    <figure class="post-figure">
+      <picture>
+        <source srcset="{{ $webp.RelPermalink }}" type="image/webp">
+        <img src="{{ $base.RelPermalink }}" alt="{{ $alt }}"{{ with $title }} title="{{ . }}"{{ end }} loading="lazy" decoding="async" width="{{ $base.Width }}" height="{{ $base.Height }}">
+      </picture>
+      {{- with $title }}<figcaption>{{ . }}</figcaption>{{ end -}}
+    </figure>
+  {{- else -}}
+    <figure class="post-figure">
+      <img src="{{ $res.RelPermalink }}" alt="{{ $alt }}"{{ with $title }} title="{{ . }}"{{ end }} loading="lazy" decoding="async">
+      {{- with $title }}<figcaption>{{ . }}</figcaption>{{ end -}}
+    </figure>
+  {{- end -}}
+{{- else -}}
+  <img src="{{ $src | safeURL }}" alt="{{ $alt }}"{{ with $title }} title="{{ . }}"{{ end }} loading="lazy" decoding="async">
+{{- end -}}
