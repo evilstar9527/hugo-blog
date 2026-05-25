@@ -36,6 +36,9 @@
           <span class="post-title">{{ .Title }}</span>
           <time datetime="{{ .PublishDate.Format "2006-01-02" }}">{{ .PublishDate.Format .Site.Params.dateFormat }}</time>
         </a>
+        {{ with .Summary }}
+        <p class="post-summary">{{ . | plainify | truncate 80 }}</p>
+        {{ end }}
         {{ with .Params.tags }}
         <div class="post-tags">
           {{ range first 4 . }}

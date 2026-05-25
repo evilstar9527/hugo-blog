@@ -9,31 +9,20 @@
 {{ $pages := where .Site.RegularPages "Type" "posts" }}
 <main id="main" class="archive">
   <section class="home-hero">
-    <p class="home-hero-desc">{{ .Site.Params.description }}</p>
-    <p class="home-hero-meta">共 {{ len $pages }} 篇文章 · 最近更新 {{ (index $pages 0).PublishDate.Format .Site.Params.dateFormat }}</p>
+    <p class="home-hero-desc"><strong>404</strong> · 页面不存在</p>
+    <p class="home-hero-meta">你访问的页面可能已被移动或删除。<a href="{{ .Site.BaseURL }}">回到首页</a></p>
   </section>
 
-  {{ range $pages.GroupByDate "2006-01" }}
+  {{ with first 5 $pages }}
   <div class="post-group">
-    {{ $parts := split .Key "-" }}
-    <h3>{{ index $parts 0 }} 年 {{ int (index $parts 1) }} 月</h3>
+    <h3>最近文章</h3>
     <ul>
-      {{ range .Pages }}
+      {{ range . }}
       <li>
         <a class="post-link" href="{{ .RelPermalink }}">
           <span class="post-title">{{ .Title }}</span>
           <time datetime="{{ .PublishDate.Format "2006-01-02" }}">{{ .PublishDate.Format .Site.Params.dateFormat }}</time>
         </a>
-        {{ with .Summary }}
-        <p class="post-summary">{{ . | plainify | truncate 80 }}</p>
-        {{ end }}
-        {{ with .Params.tags }}
-        <div class="post-tags">
-          {{ range first 4 . }}
-          <a class="tag-chip" href="{{ "tags/" | absURL }}{{ . | urlize }}/" aria-label="标签：{{ . }}">#{{ . }}</a>
-          {{ end }}
-        </div>
-        {{ end }}
       </li>
       {{ end }}
     </ul>
