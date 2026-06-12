@@ -14,6 +14,26 @@ categories: ["notes"]
 
 这套「push 到 release 分支就自动出包」的流程，我其实之前在自己 fork 的 Ghostty（我自己魔改的 Ghostty++）里就搭过一套。那套要复杂得多——后面会专门说一下复杂在哪。这次我等于是把那套的骨架抠出来，砍掉它特有的、我这个小工具用不上的部分，重新拼一个最小可用版本。这篇就记一下这个过程，顺便把中间踩的一个坑写清楚。
 
+## GitHub 仓库
+
+这个小工具叫 [Worktree Bar](https://github.com/evilstar9527/worktree-bar)，是一个 macOS 菜单栏 app，用来管理多个项目里的 git worktree。仓库里能看到完整的最终形态：SwiftUI 源码、`project.yml`、`VERSION`，以及真正跑发布的 `.github/workflows/release-branch.yml`。
+
+这篇文章不是单独讲 app 功能，所以源码细节先不展开。对发布流程来说，真正重要的是三个文件：
+
+- `VERSION`：发版版本号的唯一来源；
+- `project.yml`：XcodeGen 的工程描述，CI 会把版本号写进这里；
+- `.github/workflows/release-branch.yml`：push 到 `release` 分支后自动构建、签名、打包、发 Release 的 workflow。
+
+如果想直接对照代码看，最好从 workflow 文件开始。它基本就是这篇文章后面每一段的可执行版本。
+
+## GitHub Release 页面
+
+最终产物也直接挂在 GitHub Release 上：[Worktree Bar Releases](https://github.com/evilstar9527/worktree-bar/releases)。
+
+现在这套流程跑完之后，GitHub 上会出现一个形如 `v0.1.0` 的 tag 和一个同名 Release，Release 里挂着 `WorktreeBar-v0.1.0.dmg`。下载这个 dmg，拖进 Applications，就完成安装。因为它是 ad-hoc signed 的个人工具，不走 Apple Developer ID，所以第一次打开时 Gatekeeper 还会拦一下，这个限制不是 GitHub Action 能解决的。
+
+这里我没有做 Sparkle 那种 app 内自动更新，也没有做 notarization。原因很简单：这个工具目前就是个人使用的小工具，核心目标是「我 push 一下就能拿到可下载的 dmg」，而不是做一个完整商业软件的分发链路。把问题边界收窄之后，workflow 才能保持在一个很好维护的复杂度里。
+
 ## 整体思路
 
 发布这件事，我希望它有一个明确的「触发点」。不是每次 push 都发版——那太吵了——而是专门留一个 `release` 分支，只有内容进到这个分支才发版。平时在 `main` 上随便改，想发了再把改动推进 `release`。
